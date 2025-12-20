@@ -4,7 +4,6 @@ from RIVES_Raphaelle.dictionnaire_lettres import points
 import time
 
 
-
 #* -------------- Zone commentaire --------------------
 
 #* LUCIAN - J'ai ajouté la condition de verif expliqué en Docstring de Score et j'ai changé l'output en tuple pour pouvoir récup l'information rapidement pour l'interface turtle.
