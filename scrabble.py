@@ -4,7 +4,6 @@ from RIVES_Raphaelle.dictionnaire_lettres import points
 import time
 
 
-#! RAPHAELLE ! Installe l'extension Better Comments (à effacer si déjà fait)
 
 #* -------------- Zone commentaire --------------------
 
@@ -41,3 +40,4 @@ def Score(mot : str, points : dict) -> str :
         # return f"Le mot {mot} ne fait pas parti de la liste règlementaire..."
 
 print(Score('zoo', points))
+
