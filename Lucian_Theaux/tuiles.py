@@ -47,6 +47,8 @@ def letter_impression():
     metric = nsi.get_int(slider_metric)
     texte = nsi.get_string(lettre)
     texte = texte.upper()
+    turtle.goto(0,0)
+    turtle.clear()
     turtle.penup()
     turtle.setheading(180)
     turtle.fd(((5*metric)*len(texte))/2)
