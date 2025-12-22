@@ -26,7 +26,7 @@ hideturtle()
 down()
 
 
-def Score(mot : str, points : dict) -> str :
+def Score(lettre : str, points : dict) -> str :
     """
     Score: Prend en entrée le mot que l'on cherche et le dictionnaire de point, elle renvoie ensuite: 
            - Si le mot se trouve dans la liste du Scrabble, son score et sa position dans la liste sous forme de tuple, elle ajoute ensuite le score et le mot dans le fichier scores.txt.
@@ -36,7 +36,7 @@ def Score(mot : str, points : dict) -> str :
     - points : Prend en entrée le dictionnaire de point, officiel ou personnalisé
     """
     resultat = 0
-    mot = mot.upper()
+    mot = lettre.upper()
 
     verif, index = recherche(mot)
 
@@ -44,12 +44,13 @@ def Score(mot : str, points : dict) -> str :
         for car in mot:
             resultat = resultat + points[car]
         ajout_score(resultat)
+        write('Le mot {0} vaut {1} pts, il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
         return (resultat, index)
         # return f"Le mot {mot} vaut {resultat} pts, il est position {index} dans le dictionnaire."
     else:
+        write('Le mot {0} ne fait pas parti de la liste règlementaire...'.format(mot), font=('Arial', 16, 'bold'))
         return None
         # return f"Le mot {mot} ne fait pas parti de la liste règlementaire..."
-print(Score('zoo', points))
 
 
 
@@ -105,6 +106,9 @@ def letter_impression():
         else:
             print("ce n'est pas une lettre : {0}".format(ltr))
             fd(5*metric)
+    up()
+    goto(-200,0)
+    Score(texte, points)
 
 
 def bareme_scrabble():
