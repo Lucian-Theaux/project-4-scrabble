@@ -45,13 +45,13 @@ Champ1=entry('Coucou')
 
 
 
-def carre():            # ROMEO NE MET PAS D4ACCENT EN PROGRAMMATION
+def carre():            # ROMEO NE MET PAS D'ACCENT EN PROGRAMMATION
    for i in range(4):
         down()
         forward(50)
         left(90)
 
-def Bareme():           # ROMEO NE MET PAS D4ACCENT EN PROGRAMMATION
+def Bareme():           # ROMEO NE MET PAS D'ACCENT EN PROGRAMMATION
     up()
     goto(-800,350)
     write("Barème des Points : ", font=("Arial", 24, "normal"))
@@ -64,7 +64,7 @@ def Bareme():           # ROMEO NE MET PAS D4ACCENT EN PROGRAMMATION
 
 
 
-def ecriture(mot):     # ROMEO NE MET PAS D4ACCENT EN PROGRAMMATION
+def ecriture(mot):     # ROMEO NE MET PAS D'ACCENT EN PROGRAMMATION
     write(mot)
     
 
