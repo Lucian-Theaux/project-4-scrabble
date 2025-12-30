@@ -3,7 +3,7 @@
 #* Roméo HUYNH
 """Ici on importe les fichiers nécéssaires pour le projet"""
 from turtle import*
-from nsi_ui import*
+import tkinter as tk
 from Lucian_Theaux.search import recherche
 from Lucian_Theaux.calcul_score import ajout_score
 from RIVES_Raphaelle.dictionnaire_lettres import points
@@ -138,25 +138,24 @@ def bareme_scrabble():
         pendown()
     hideturtle()
 
-
+root = tk.Tk()
 
 #──────────────────── Interface graphique ─────────────────
+
+tk.Label('Barème des points : ')
 begin_vertical()
-label('Barème des points : ')
-begin_horizontal()
-begin_vertical()
-label('• A, E, I, L, N, O, R, S, T, U : 1 point')
-label('• D, G, M : 2 points')
-label('• B, C, P : 3 points')
+tk.Label('• A, E, I, L, N, O, R, S, T, U : 1 point')
+tk.Label('• D, G, M : 2 points')
+tk.Label('• B, C, P : 3 points')
 end_vertical()
 begin_vertical()
-label('• F, H, V : 4 points')
-label('• J, Q : 8 points')
-label('• K, W, X, Y, Z : 10 points')
+Label('• F, H, V : 4 points')
+Label('• J, Q : 8 points')
+Label('• K, W, X, Y, Z : 10 points')
 end_vertical()
 end_horizontal()
 end_vertical()
-label('')
+Label('')
 # ────────────────── Zone d’interaction ────────────────────
 begin_vertical()
 label('Entrer un mot :')
@@ -172,4 +171,4 @@ button('Afficher le barème', bareme_scrabble)
 
 bareme_scrabble()
 listen()
-mainloop()
+root.mainloop()
