@@ -52,6 +52,13 @@ def Score(lettre : str, points : dict) -> str :
         return None
         # return f"Le mot {mot} ne fait pas parti de la liste règlementaire..."
 
+def double(lettre : str, points : dict) -> str :
+    verification =Score(lettre, points)
+    if verification != None:
+        res = verification[0]*2
+        tt.write('Le mot %s compte double, il vaut %s pts.' % (lettre, res), font =('Calibri', 16, 'italic'))
+    else:
+        tt.write('Erreur', font =('Calibri', 16, 'italic'))
 
 def bareme_scrabble():
     """
