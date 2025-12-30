@@ -1,5 +1,5 @@
 # coding=utf-8
-import nsi_ui as nsi
+import tkinter
 import turtle
 # from RIVES_Raphaelle.dictionnaire_lettres import points
 from dictionnaire_lettres import points
@@ -11,7 +11,7 @@ def tuile(ltr):
     tuile: crée une tuile affichant la lettre et le score de cette même lettre
     - ltr: Prend en entré une chaine de caractère de une seule lettre
     """
-    metric = nsi.get_int(slider_metric)
+    metric = slider_metric.get()
     turtle.pencolor('black')
     turtle.fillcolor('#CCA46C')
     turtle.begin_fill()
@@ -44,8 +44,8 @@ def letter_impression():
     """
     letter_impression: fait apparaitre les tuiles du mot demandé à partir de la fonction tuiles
     """
-    metric = nsi.get_int(slider_metric)
-    texte = nsi.get_string(lettre)
+    metric = slider_metric.get()
+    texte = lettre.get()
     texte = texte.upper()
     turtle.goto(0,0)
     turtle.clear()
@@ -62,13 +62,5 @@ def letter_impression():
             turtle.fd(5*metric)
 
 turtle.screensize(300,300)
-
-nsi.begin_vertical
-nsi.button('Envoyer', letter_impression)
-slider_metric = nsi.slider('Scale', 0, 100)
-lettre = nsi.entry('')
-nsi.end_vertical
-
-nsi.set_value(slider_metric, 20)
 
 turtle.mainloop()

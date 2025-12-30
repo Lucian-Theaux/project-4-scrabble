@@ -2,13 +2,13 @@
 #* Projet réalisé par :
 #* Roméo HUYNH
 """Ici on importe les fichiers nécéssaires pour le projet"""
-from turtle import*
+import turtle as tt
 import tkinter as tk
 from Lucian_Theaux.search import recherche
+from Lucian_Theaux.tuiles import tuile, letter_impression
 from Lucian_Theaux.calcul_score import ajout_score
 from RIVES_Raphaelle.dictionnaire_lettres import points
 import time
-
 
 #* -------------- Zone commentaire --------------------
 
@@ -19,11 +19,11 @@ import time
 #* ----------------------------------------------------
 
 """Ici on initialise quelques paramètres utiles"""
-title("Projet_4 Scrabble")
-setup(1.0, 1.0)                         #Fonction qui associé à ces paramètres permet de mettre la fenêtre graphique en full screen
-speed(0)
-hideturtle()
-down()
+tt.title("Projet_4 Scrabble")                     #Fonction qui associé à ces paramètres permet de mettre la fenêtre graphique en full screen
+tt.speed(0)
+tt.hideturtle()
+tt.down()
+tt.screensize(300,300)
 
 
 def Score(lettre : str, points : dict) -> str :
@@ -44,85 +44,27 @@ def Score(lettre : str, points : dict) -> str :
         for car in mot:
             resultat = resultat + points[car]
         ajout_score(resultat)
-        write('Le mot {0} vaut {1} pts, il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
+        tt.write('Le mot {0} vaut {1} pts, il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
         return (resultat, index)
         # return f"Le mot {mot} vaut {resultat} pts, il est position {index} dans le dictionnaire."
     else:
-        write('Le mot {0} ne fait pas parti de la liste règlementaire...'.format(mot), font=('Arial', 16, 'bold'))
+        tt.write('Le mot {0} ne fait pas parti de la liste règlementaire...'.format(mot), font=('Arial', 16, 'bold'))
         return None
         # return f"Le mot {mot} ne fait pas parti de la liste règlementaire..."
-
-
-
-def tuile(ltr):
-    """
-    tuile: crée une tuile affichant la lettre et le score de cette même lettre
-    - ltr: Prend en entré une chaine de caractère de une seule lettre
-    """
-    metric = get_int(slider_metric)
-    pencolor('black')
-    fillcolor('#CCA46C')
-    begin_fill()
-    for i in range(4):
-        fd(5*metric)
-        lt(90)
-    end_fill()
-    penup()
-    fd(1.5*metric)
-    lt(90)
-    fd(0.8*metric)
-    rt(90)
-    write(ltr, font=('Arial', 3*metric))
-    rt(90)
-    fd(0.8*metric)
-    lt(90)
-    if points[ltr] >= 10:
-        fd(2*metric)
-        write(points[ltr], font=('Arial', metric))
-        fd(metric)
-    else:
-        fd(2.7*metric)
-        write(points[ltr], font=('Arial', metric))
-        fd(0.8*metric)
-    pendown()
-
-
-def letter_impression():
-    """
-    letter_impression: fait apparaitre les tuiles du mot demandé à partir de la fonction tuiles
-    """
-    metric = get_int(slider_metric)
-    texte = get_string(lettre)
-    texte = texte.upper()
-    clearscreen()
-    speed(0)
-    up()
-    goto(-((len(texte)/2)*5*metric),-200)
-    setheading(0)
-    down()
-    for ltr in texte:
-        if ltr.isupper():
-            tuile(ltr)
-        else:
-            print("ce n'est pas une lettre : {0}".format(ltr))
-            fd(5*metric)
-    up()
-    goto(-200,0)
-    Score(texte, points)
 
 
 def bareme_scrabble():
     """
     Affiche toutes les tuiles du Scrabble classées par nombre de points
     """
-    metric = get_int(slider_metric)
-    speed(0)
-    up()
-    goto(-600, 325)
-    write("Barème des points :", font=('Arial', 16, 'bold'))
-    goto(-600, ycor() - 6*metric)
-    setheading(0)
-    down()
+    metric = slider_metric.get()
+    tt.speed(0)
+    tt.up()
+    tt.goto(-600, 325)
+    tt.write("Barème des points :", font=('Arial', 16, 'bold'))
+    tt.goto(-600, float(tt.pos()[1]) - float(6*metric))
+    tt.setheading(0)
+    tt.down()
     groupes = [
         (1,  ['A','E','I','L','N','O','R','S','T','U']),
         (2,  ['D','G','M']),
@@ -133,42 +75,52 @@ def bareme_scrabble():
     for score, lettres in groupes:
         for ltr in lettres:
             tuile(ltr)
-        penup()
-        goto(-600, ycor() - 6*metric)
-        pendown()
-    hideturtle()
+        tt.penup()
+        tt.goto(-600, float(tt.pos()[1]) - 6*metric)
+        tt.pendown()
+    tt.hideturtle()
 
 root = tk.Tk()
 
 #──────────────────── Interface graphique ─────────────────
 
-tk.Label('Barème des points : ')
-begin_vertical()
-tk.Label('• A, E, I, L, N, O, R, S, T, U : 1 point')
-tk.Label('• D, G, M : 2 points')
-tk.Label('• B, C, P : 3 points')
-end_vertical()
-begin_vertical()
-Label('• F, H, V : 4 points')
-Label('• J, Q : 8 points')
-Label('• K, W, X, Y, Z : 10 points')
-end_vertical()
-end_horizontal()
-end_vertical()
-Label('')
+Bareme = tk.Label(root,text='Barème des points : ')
+# begin_vertical()
+one_point = tk.Label(root,text='• A, E, I, L, N, O, R, S, T, U : 1 point')
+one_point.pack()
+two_points = tk.Label(root,text='• D, G, M : 2 points')
+two_points.pack()
+three_points = tk.Label(root,text='• B, C, P : 3 points')
+three_points.pack()
+# end_vertical()
+# begin_vertical()
+four_points = tk.Label(root,text='• F, H, V : 4 points')
+four_points.pack()
+height_points = tk.Label(root,text='• J, Q : 8 points')
+height_points.pack()
+ten_points = tk.Label(root,text='• K, W, X, Y, Z : 10 points')
+ten_points.pack()
+# end_vertical()
+# end_horizontal()
+# end_vertical()
+empty = tk.Label(root,text='')
+empty.pack()
 # ────────────────── Zone d’interaction ────────────────────
-begin_vertical()
-label('Entrer un mot :')
-lettre = entry('')
-slider_metric = slider('Valeur du curseur', 0, 100)
-button('Envoyer', letter_impression)
-end_vertical()
-end_vertical()
-set_value(slider_metric, 10)
-button('Afficher le barème', bareme_scrabble)
-
-
+# begin_vertical()
+input_label = tk.Label(root,text='Entrer un mot :')
+input_label.pack()
+lettre = tk.Entry(root)
+lettre.pack()
+slider_metric = tk.Scale(root, orient='horizontal')
+slider_metric.pack()
+slider_metric.set(10)
+send_button = tk.Button(root,text='Envoyer',command=letter_impression)
+send_button.pack()
+# end_vertical()
+# end_vertical()
+show_button = tk.Button(root,text='Afficher le barème', command=bareme_scrabble)
+show_button.pack()
 
 bareme_scrabble()
-listen()
-root.mainloop()
+tt.listen()
+tt.mainloop()#;root.mainloop()
