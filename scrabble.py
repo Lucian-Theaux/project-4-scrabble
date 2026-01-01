@@ -74,7 +74,7 @@ def bareme_scrabble():
         (10, ['K','W','X','Y','Z'])]
     for score, lettres in groupes:
         for ltr in lettres:
-            tuile(ltr)
+            tuile(ltr, slider_metric)
         tt.penup()
         tt.goto(-600, float(tt.pos()[1]) - 6*metric)
         tt.pendown()
@@ -114,7 +114,7 @@ lettre.pack()
 slider_metric = tk.Scale(root, orient='horizontal')
 slider_metric.pack()
 slider_metric.set(10)
-send_button = tk.Button(root,text='Envoyer',command=letter_impression)
+send_button = tk.Button(root,text='Envoyer',command=letter_impression(slider_metric, lettre))
 send_button.pack()
 # end_vertical()
 # end_vertical()
@@ -123,4 +123,4 @@ show_button.pack()
 
 bareme_scrabble()
 tt.listen()
-tt.mainloop()#;root.mainloop()
+tt.mainloop();root.mainloop()

@@ -6,7 +6,7 @@ from dictionnaire_lettres import points
 
 turtle.speed(0)
 
-def tuile(ltr):
+def tuile(ltr, slider_metric):
     """
     tuile: crée une tuile affichant la lettre et le score de cette même lettre
     - ltr: Prend en entré une chaine de caractère de une seule lettre
@@ -40,7 +40,7 @@ def tuile(ltr):
     
 
 
-def letter_impression():
+def letter_impression(slider_metric, lettre):
     """
     letter_impression: fait apparaitre les tuiles du mot demandé à partir de la fonction tuiles
     """
@@ -60,7 +60,3 @@ def letter_impression():
         else:
             print("ce n'est pas une lettre : {0}".format(ltr))
             turtle.fd(5*metric)
-
-turtle.screensize(300,300)
-
-turtle.mainloop()
