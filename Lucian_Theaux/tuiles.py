@@ -56,7 +56,7 @@ def letter_impression(slider_metric, lettre):
     turtle.pendown()
     for ltr in texte:
         if ltr.isupper():
-            tuile(ltr)
+            tuile(ltr, slider_metric)
         else:
             print("ce n'est pas une lettre : {0}".format(ltr))
             turtle.fd(5*metric)
