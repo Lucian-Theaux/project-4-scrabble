@@ -13,7 +13,7 @@ def tuile(ltr, slider_metric):
     """
     metric = slider_metric.get()
     turtle.pencolor('black')
-    turtle.fillcolor('#CCA46C')
+    turtle.fillcolor('#D5B486')
     turtle.begin_fill()
     for i in range(4):
         turtle.fd(5*metric)

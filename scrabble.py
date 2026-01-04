@@ -6,7 +6,7 @@ import turtle as tt
 import tkinter as tk
 from Lucian_Theaux.search import recherche
 from Lucian_Theaux.tuiles import tuile, letter_impression
-from Lucian_Theaux.calcul_score import ajout_score
+from Lucian_Theaux.calcul_score import ajout_score, scoreboard
 from RIVES_Raphaelle.dictionnaire_lettres import points
 import time
 
@@ -20,7 +20,7 @@ import time
 
 """Ici on initialise quelques paramètres utiles"""
 tt.title("Projet_4 Scrabble")                     #Fonction qui associé à ces paramètres permet de mettre la fenêtre graphique en full screen
-tt.speed(0)
+tt.speed(8)
 tt.hideturtle()
 tt.down()
 tt.screensize(300,300)
@@ -44,12 +44,12 @@ def Score(lettre : str, points : dict) -> str :
     if verif:
         for car in mot:
             resultat = resultat + points[car]
-        ajout_score(resultat)
+        ajout_score(resultat,mot)
         tt.up()
         tt.goto(-50,-200)
         tt.setheading(0)
         tt.down()
-        tt.write('Le mot {0} vaut {1} pts, \n Il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
+        # tt.write('Le mot {0} vaut {1} pts, \n Il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
         return (resultat, index)
         # return f"Le mot {mot} vaut {resultat} pts, il est position {index} dans le dictionnaire."
     else:
@@ -57,7 +57,7 @@ def Score(lettre : str, points : dict) -> str :
         tt.goto(-50,-200)
         tt.setheading(0)
         tt.down()
-        tt.write(f'Le mot {mot} ne fait pas parti de la liste règlementaire...', font=('Arial', 16, 'bold'))
+        # tt.write(f'Le mot {mot} ne fait pas parti de la liste règlementaire...', font=('Arial', 16, 'bold'))
         return None
         # return f"Le mot {mot} ne fait pas parti de la liste règlementaire..."
 
@@ -99,6 +99,10 @@ def bareme_scrabble():
 def impression(slider_metric, lettre, points):
     letter_impression(slider_metric, lettre)
     Score(lettre, points)
+    scoreboard(length=5)
+
+
+
 
 root = tk.Tk()
 
@@ -106,7 +110,7 @@ root = tk.Tk()
 tt.title('Scrabble.io')
 tt.setup(1.0,1.0)
 root.title('Scrabble.io')
-root.geometry('500x200')
+# root.geometry('500x200')
 
 tt.speed(0)
 
@@ -148,10 +152,10 @@ send_button = tk.Button(right,text='Envoyer',command=lambda:impression(slider_me
 send_button.pack()
 # end_vertical()
 # end_vertical()
-show_button = tk.Button(right,text='Afficher le barème', command=bareme_scrabble)
-show_button.pack()
+# show_button = tk.Button(right,text='Afficher le barème', command=bareme_scrabble)
+# show_button.pack()
 right.grid(column=1, row=0)
 
-bareme_scrabble()
+# bareme_scrabble()
 tt.listen()
 tt.mainloop();root.mainloop()
