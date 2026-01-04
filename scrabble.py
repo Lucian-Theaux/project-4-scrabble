@@ -104,32 +104,33 @@ def impression(slider_metric, lettre, points):
 
 
 
-def historique_scores():
-    """
-    Affiche l'historique des scores enregistrés dans le fichier scores.txt
-    """
-    tt.up()
-    tt.goto(200, 200)
-    tt.setheading(0)
-    tt.down()
-    tt.write("Historique des scores :", font=('Arial', 16, 'bold'))
-    tt.up()
-    tt.goto(200, float(tt.pos()[1]) - 20)
-    tt.setheading(0)
-    tt.down()
-    try:
-        with open("scores.txt", "r") as f:
-            lignes = f.readlines()
-            for ligne in lignes:
-                tt.write(ligne.strip(), font=('Arial', 12))
-                tt.up()
-                tt.goto(200, float(tt.pos()[1]) - 20)
-                tt.setheading(0)
-                tt.down()
-    except FileNotFoundError:
-        tt.write("Aucun score enregistré.", font=('Arial', 12))
+# def historique_scores():
+#     """
+#     Affiche l'historique des scores enregistrés dans le fichier scores.txt
+#     """
+#     tt.up()
+#     tt.goto(200, 200)
+#     tt.setheading(0)
+#     tt.down()
+#     tt.write("Historique des scores :", font=('Arial', 16, 'bold'))
+#     tt.up()
+#     tt.goto(200, float(tt.pos()[1]) - 20)
+#     tt.setheading(0)
+#     tt.down()
+#     try:
+#         with open("scores.txt", "r") as f:
+#             lignes = f.readlines()
+#             for ligne in lignes:
+#                 tt.write(ligne.strip(), font=('Arial', 12))
+#                 tt.up()
+#                 tt.goto(200, float(tt.pos()[1]) - 20)
+#                 tt.setheading(0)
+#                 tt.down()
+#     except FileNotFoundError:
+#         tt.write("Aucun score enregistré.", font=('Arial', 12))
 
 def mot_et_score(lettre : str, points : dict) -> str :
+    global nbmots
     metric=slider_metric.get()
     tt.up()
     tt.goto(200, 200-nbmots*metric)
@@ -161,8 +162,6 @@ send_button.pack()
 # end_vertical()
 # end_vertical()
 show_button = tk.Button(right,text='Afficher le barème', command=bareme_scrabble)
-show_button.pack()
-show_button = tk.Button(right,text="Afficher l'historique", command=historique_scores)
 show_button.pack()
 right.grid(column=1, row=0)
 
