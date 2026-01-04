@@ -24,6 +24,7 @@ tt.speed(0)
 tt.hideturtle()
 tt.down()
 tt.screensize(300,300)
+nbmots = 0
 
 
 def Score(lettre : str, points : dict) -> str :
@@ -49,9 +50,7 @@ def Score(lettre : str, points : dict) -> str :
         tt.goto(-50,-200)
         tt.setheading(0)
         tt.down()
-        tt.write('Le mot {0} vaut {1} pts, \n Il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
-        return (resultat, index)
-        # return f"Le mot {mot} vaut {resultat} pts, il est position {index} dans le dictionnaire."
+        mot_et_score(mot, resultat)
     else:
         tt.up()
         tt.goto(-50,-200)
@@ -100,39 +99,43 @@ def impression(slider_metric, lettre, points):
     letter_impression(slider_metric, lettre)
     Score(lettre, points)
 
+
+def historique_scores():
+    """
+    Affiche l'historique des scores enregistrés dans le fichier scores.txt
+    """
+    tt.up()
+    tt.goto(200, 200)
+    tt.setheading(0)
+    tt.down()
+    tt.write("Historique des scores :", font=('Arial', 16, 'bold'))
+    tt.up()
+    tt.goto(200, float(tt.pos()[1]) - 20)
+    tt.setheading(0)
+    tt.down()
+    try:
+        with open("scores.txt", "r") as f:
+            lignes = f.readlines()
+            for ligne in lignes:
+                tt.write(ligne.strip(), font=('Arial', 12))
+                tt.up()
+                tt.goto(200, float(tt.pos()[1]) - 20)
+                tt.setheading(0)
+                tt.down()
+    except FileNotFoundError:
+        tt.write("Aucun score enregistré.", font=('Arial', 12))
+
+def mot_et_score(lettre : str, points : dict) -> str :
+    metric=slider_metric.get()
+    tt.up()
+    tt.goto(200, 200-nbmots*metric)
+    tt.down()
+    tt.write(' NEW %s = %s pts.' %(lettre, points), font =('Calibri', 16, 'italic'))
+    nbmots += 1
+
 root = tk.Tk()
 
-#──────────────────── Interface graphique ─────────────────
-tt.title('Scrabble.io')
-tt.setup(1.0,1.0)
-root.title('Scrabble.io')
-root.geometry('500x200')
 
-tt.speed(0)
-
-left = tk.Frame(root)
-Bareme = tk.Label(left,text='Barème des points : ')
-# begin_vertical()
-one_point = tk.Label(left,text='• A, E, I, L, N, O, R, S, T, U : 1 point')
-one_point.pack()
-two_points = tk.Label(left,text='• D, G, M : 2 points')
-two_points.pack()
-three_points = tk.Label(left,text='• B, C, P : 3 points')
-three_points.pack()
-# end_vertical()
-# begin_vertical()
-four_points = tk.Label(left,text='• F, H, V : 4 points')
-four_points.pack()
-height_points = tk.Label(left,text='• J, Q : 8 points')
-height_points.pack()
-ten_points = tk.Label(left,text='• K, W, X, Y, Z : 10 points')
-ten_points.pack()
-# end_vertical()
-# end_horizontal()
-# end_vertical()
-empty = tk.Label(left,text='')
-empty.pack()
-left.grid(column=0, row=0)
 # ────────────────── Zone d’interaction ────────────────────
 # begin_vertical()
 right = tk.Frame(root)
@@ -149,6 +152,8 @@ send_button.pack()
 # end_vertical()
 # end_vertical()
 show_button = tk.Button(right,text='Afficher le barème', command=bareme_scrabble)
+show_button.pack()
+show_button = tk.Button(right,text="Afficher l'historique", command=historique_scores)
 show_button.pack()
 right.grid(column=1, row=0)
 
