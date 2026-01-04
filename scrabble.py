@@ -36,7 +36,8 @@ def Score(lettre : str, points : dict) -> str :
     - points : Prend en entrée le dictionnaire de point, officiel ou personnalisé
     """
     resultat = 0
-    mot = lettre.upper()
+    mot = lettre.get()
+    mot = mot.upper()
 
     verif, index = recherche(mot)
 
@@ -44,11 +45,19 @@ def Score(lettre : str, points : dict) -> str :
         for car in mot:
             resultat = resultat + points[car]
         ajout_score(resultat)
-        tt.write('Le mot {0} vaut {1} pts, il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
+        tt.up()
+        tt.goto(-50,-200)
+        tt.setheading(0)
+        tt.down()
+        tt.write('Le mot {0} vaut {1} pts, \n Il est position {2} dans le dictionnaire.'.format(mot, resultat, index), font=('Arial', 16, 'bold'))
         return (resultat, index)
         # return f"Le mot {mot} vaut {resultat} pts, il est position {index} dans le dictionnaire."
     else:
-        tt.write('Le mot {0} ne fait pas parti de la liste règlementaire...'.format(mot), font=('Arial', 16, 'bold'))
+        tt.up()
+        tt.goto(-50,-200)
+        tt.setheading(0)
+        tt.down()
+        tt.write(f'Le mot {mot} ne fait pas parti de la liste règlementaire...', font=('Arial', 16, 'bold'))
         return None
         # return f"Le mot {mot} ne fait pas parti de la liste règlementaire..."
 
@@ -87,10 +96,19 @@ def bareme_scrabble():
         tt.pendown()
     tt.hideturtle()
 
+def impression(slider_metric, lettre, points):
+    letter_impression(slider_metric, lettre)
+    Score(lettre, points)
+
 root = tk.Tk()
 
 #──────────────────── Interface graphique ─────────────────
+tt.title('Scrabble.io')
+tt.setup(1.0,1.0)
+root.title('Scrabble.io')
+root.geometry('400x300')
 
+tt.speed(0)
 Bareme = tk.Label(root,text='Barème des points : ')
 # begin_vertical()
 one_point = tk.Label(root,text='• A, E, I, L, N, O, R, S, T, U : 1 point')
@@ -114,14 +132,15 @@ empty = tk.Label(root,text='')
 empty.pack()
 # ────────────────── Zone d’interaction ────────────────────
 # begin_vertical()
-input_label = tk.Label(root,text='Entrer un mot :')
+input_label = tk.Label(root,text='Entrer un mot (sans parenthèses):')
 input_label.pack()
 lettre = tk.Entry(root)
+lettre.insert(0, 'exemple: tortue')
 lettre.pack()
 slider_metric = tk.Scale(root, orient='horizontal')
 slider_metric.pack()
 slider_metric.set(10)
-send_button = tk.Button(root,text='Envoyer',command=lambda:letter_impression(slider_metric, lettre))
+send_button = tk.Button(root,text='Envoyer',command=lambda:impression(slider_metric, lettre, points))
 send_button.pack()
 # end_vertical()
 # end_vertical()
