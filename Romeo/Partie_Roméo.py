@@ -23,7 +23,7 @@ tt.screensize(1.0, 1.0)        # Configurer la fenêtre graphique Turtle en plei
 tt.speed(0)                    # Régler la vitesse de dessin au maximum
 
 # Créer la fenêtre principale Tkinter
-root = tk.Tk()
+root = tk.Tk()  # Créer la fenêtre principale Tkinter
 
 # ==================== Interface graphique ====================
 
@@ -35,38 +35,36 @@ root.title('Scrabble.io')
 # ==================== Zone d'interaction utilisateur ====================
 
 # Créer un frame pour la zone de saisie
-right = tk.Frame(root)
+right = tk.Frame(root)  # Créer un frame pour la zone de saisie
 
 # Label pour indiquer à l'utilisateur d'entrer un mot
-input_label = tk.Label(right, text='Entrer un mot (sans parenthèses):')
+input_label = tk.Label(right, text='Entrer un mot (sans parenthèses):')  # Label pour indiquer à l'utilisateur d'entrer un mot
 input_label.pack()
 
 # Champ de saisie pour le mot
-lettre = tk.Entry(right)
-lettre.insert(0, 'exemple: tortue')
+lettre = tk.Entry(right)  # Champ de saisie pour le mot
+lettre.insert(0, 'exemple: tortue')                     # Texte d'exemple dans le champ de saisie
 lettre.pack()
 
 # Curseur pour ajuster la taille des tuiles
-slider_metric = tk.Scale(right, orient='horizontal')
+slider_metric = tk.Scale(right, orient='horizontal')  # Curseur pour ajuster la taille des tuiles
 slider_metric.pack()
 slider_metric.set(10)
 
 # Bouton pour envoyer le mot et afficher les tuiles
-send_button = tk.Button(right, text='Envoyer', command=lambda: letter_impression(slider_metric, lettre, points))
+send_button = tk.Button(right, text='Envoyer', command=lambda: letter_impression(slider_metric, lettre, points))  # Bouton pour envoyer le mot et afficher les tuiles
 send_button.pack()
 
 # Bouton pour afficher le barème des points
-show_button = tk.Button(right, text='Afficher le barème', command=bareme_scrabble)
+show_button = tk.Button(right, text='Afficher le barème', command=bareme_scrabble)  # Bouton pour afficher le barème des points
 show_button.pack()
 
 # Placer le frame sur la grille
-right.grid(column=1, row=0)
+right.grid(column=1, row=0)  # Placer le frame sur la grille
 
 # ==================== Lancer l'application ====================
 
-# Écouter les événements de la souris et du clavier
-tt.listen()
+tt.listen()  # Écouter les événements de la souris et du clavier
 
-# Lancer les deux boucles principales (Turtle et Tkinter)
-tt.mainloop()
-root.mainloop()
+tt.mainloop()  # Lancer la boucle principale Turtle
+root.mainloop()  # Lancer la boucle principale Tkinter
