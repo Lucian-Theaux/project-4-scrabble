@@ -7,7 +7,6 @@ import tkinter
 import turtle
 from RIVES_Raphaelle.dictionnaire_lettres import points
 from Lucian_Theaux.calcul_score import scoreboard
-from Romeo.Mot_et_Score import mot_et_score
 
 turtle.speed(0)
 

@@ -4,7 +4,6 @@ from RIVES_Raphaelle.search import recherche
 from Lucian_Theaux.tuiles import tuile, letter_impression
 from Lucian_Theaux.calcul_score import ajout_score, scoreboard
 from RIVES_Raphaelle.dictionnaire_lettres import points
-from Romeo.Mot_et_Score import mot_et_score
 
 def double(lettre : str, points : dict) -> str :
     verification =Score(lettre, points)
@@ -26,19 +25,20 @@ def Score(lettre : str, points : dict, slider_metric :int) -> str :
     resultat = 0
     mot = lettre.get()
     mot = mot.upper()
+    metric = slider_metric.get()
 
     verif, index = recherche(mot)
 
     if verif:
         for car in mot:
             resultat = resultat + points[car]
-        ajout_score(resultat,mot)
+        ajout_score(resultat,mot) 
+        letter_impression(slider_metric, lettre)     
         tt.up()
-        tt.goto(-50,-200)
+        tt.goto(-200,-200)
         tt.setheading(0)
-        tt.down()       
-        letter_impression(slider_metric, lettre)
-        mot_et_score(lettre, resultat)
+        tt.down()
+        tt.write(f'valeur {mot}: {resultat}pts', font=('Arial', 30, 'bold')) 
     else:
         tt.up()
         tt.goto(-50,-200)
@@ -46,4 +46,3 @@ def Score(lettre : str, points : dict, slider_metric :int) -> str :
         tt.down()
         tt.write(f'Le mot {mot} ne fait pas parti de la liste règlementaire...', font=('Arial', 16, 'bold'))
         return None
-        # return f"Le mot {mot} ne fait pas parti de la liste règlementaire..."
