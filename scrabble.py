@@ -8,7 +8,7 @@ from RIVES_Raphaelle.search import recherche
 from Lucian_Theaux.tuiles import tuile, letter_impression
 from Lucian_Theaux.calcul_score import ajout_score, scoreboard
 from RIVES_Raphaelle.dictionnaire_lettres import points
-from RIVES_Raphaelle.nombre_de_points import Score
+from RIVES_Raphaelle.nombre_de_points import Score, double
 from Romeo.bareme_points import bareme_scrabble
 import time
 
@@ -40,6 +40,8 @@ slider_metric = tk.Scale(right, orient='horizontal')  # Curseur pour ajuster la 
 slider_metric.pack()
 slider_metric.set(10)
 send_button = tk.Button(right,text='Envoyer',command=lambda:Score(lettre, points, slider_metric))  # Bouton d'envoi
+send_button.pack()
+send_button = tk.Button(right,text='Compte double',command=lambda:double(lettre, points))  # Bouton compte double
 send_button.pack()
 show_button = tk.Button(right,text='Afficher le barème', command=bareme_scrabble)  # Bouton du barème
 show_button.pack()
