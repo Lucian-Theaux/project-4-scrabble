@@ -1,8 +1,13 @@
 # coding=utf-8
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import tkinter
 import turtle
-# from RIVES_Raphaelle.dictionnaire_lettres import points
-from dictionnaire_lettres import points
+from RIVES_Raphaelle.dictionnaire_lettres import points
+from Lucian_Theaux.calcul_score import scoreboard
+from Romeo.Mot_et_Score import mot_et_score
 
 turtle.speed(0)
 
@@ -29,9 +34,9 @@ def tuile(ltr, slider_metric):
     turtle.fd(0.8*metric)
     turtle.lt(90)
     if points[ltr] >= 10:
-        turtle.fd(2.5*metric)
+        turtle.fd(2.2*metric)
         turtle.write(points[ltr], font=('Arial', metric))
-        turtle.fd(metric)
+        turtle.fd(1.4*metric)
     else:
         turtle.fd(2.7*metric)
         turtle.write(points[ltr], font=('Arial', metric))
@@ -60,3 +65,4 @@ def letter_impression(slider_metric, lettre):
         else:
             print("ce n'est pas une lettre : {0}".format(ltr))
             turtle.fd(5*metric)
+    scoreboard(length=5)
