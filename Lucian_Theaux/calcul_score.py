@@ -26,21 +26,10 @@ def scoreboard(length:int):
     print(scoreboard_dict)
     tt.fillcolor('white')
     tt.penup()
-    tt.goto(300, -300)                                                      # Position du tableau
-    tt.begin_fill()                                                         # Fond du tableau
+    tt.goto(230, -300)                                                      # Position du tableau                                                   
     tt.setheading(0)                                                        # Orientation de la tortue      
-    tt.fd(100)                                                              # Largeur du tableau
-    tt.rt(90)                                                               # Hauteur du tableau    
-    tt.fd(50)
-    tt.rt(90)
-    tt.fd(100)
-    tt.rt(90)
-    tt.fd(50)
-    tt.end_fill()
-    tt.rt(90)
-    tt.fd(95)
-    tt.rt(90)
     tt.write('CLASSEMENT', font=('Minecraft',30, 'bold'))                   # Titre du tableau
+    tt.seth(270)
     tt.fd(30)                                                               # Espace entre le titre et les scores 
     i = 0
     if len(list(scoreboard_dict)) < length:                                 # Si le nombre de scores est inférieur à length, on affiche tous les scores disponibles

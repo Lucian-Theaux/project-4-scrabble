@@ -42,14 +42,15 @@ def Score(lettre : str, points : dict, slider_metric :int) -> str :
         tt.setheading(0)                            # Orientation de la tortue
         tt.down()
         tt.write(f'valeur {mot}: {resultat}pts', font=('Arial', 30, 'bold'))            # Affichage du score
+        historique()
     else:               # Si le mot n'est pas trouvé dans la liste:
         tt.up()
         tt.goto(-50,-200)
         tt.setheading(0)
         tt.down()
         tt.write(f'Le mot {mot} ne fait pas parti de la liste règlementaire...', font=('Arial', 16, 'bold'))                # Affichage du message d'erreur si le mot n'est pas valide
+        historique()
         return None                  # On renvoie None pour indiquer que le mot n'est pas valide
-    historique()
     
 def historique():
     """
@@ -66,3 +67,26 @@ def historique():
     tt.down() 
     tt.write('Historique des 10 derniers: \n'+'\n'.join(historique_list), font=('Arial', 16, 'italic'))             # affichage des 10 derniers scores
 
+def historique():
+    """
+    fonction historique qui affiche les 10 derniers mots
+    """
+    historique_list=[]                                          # liste vide pour stocker les scores
+    F = open('scores.txt','r', encoding='utf-8')                # ouverture du fichier en mode lecture
+    historique_list = F.read().split('\n')                      # lecture du fichier et séparation des lignes
+    F.close()                                                   # fermeture du fichier
+    while len(historique_list) >10:                             # tant que la liste contient plus de 10 éléments on affiche les 10 derniers mots et scores
+      historique_list.remove(historique_list[0]) 
+    tt.up()
+    tt.goto(230,350)                                            # positionnement pour afficher l'historique 
+    tt.write('Historique des 10 derniers: \n',font=('Minecraft', 30, 'bold'))
+    tt.setheading(270)
+    print(historique_list)
+    for elem in historique_list:
+        if elem == '':
+            continue
+        print(elem)
+        score,mot = elem.split(';')
+        tt.setheading(270)
+        tt.write(f'{mot}, {score}pts', font=('Minecraft', 20, 'italic'))
+        tt.fd(20)
