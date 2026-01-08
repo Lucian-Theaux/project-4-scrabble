@@ -1,7 +1,7 @@
 import turtle as tt
 from Lucian_Theaux.tuiles import tuile
 
-def bareme_scrabble(metric):
+def bareme_scrabble(slider_metric):
     """
     Affiche toutes les tuiles du Scrabble classées par nombre de points
     """
@@ -19,6 +19,7 @@ def bareme_scrabble(metric):
         (4,  ['F','H','V']),
         (8,  ['J','Q']),
         (10, ['K','W','X','Y','Z'])]
+    metric=slider_metric.get()
     for score, lettres in groupes:                                      # Parcourt chaque groupe de lettres  
         for ltr in lettres:                                             # Parcourt chaque lettre dans le groupe
             tuile(ltr, metric)                                          # Affiche la tuile de la lettre
