@@ -52,7 +52,7 @@ def double(lettre : str, points : dict, slider_metric :int) -> str :
     elle renvoie ensuite le score du mot demandé multiplié par deux si le mot est valide.
     """
     verification =Score(lettre, points, slider_metric)  # On utilise la fonction Score pour vérifier si le mot est valide et obtenir son score
-    mot = lettre.get()                                  # on récupère dans la variable mot le mot écrit dans le label lettre 
+    mot = lettre.get()                                  # on récupère dans la variable mot le mot écrit dans le champ d'entrée lettre 
     tt.up()
     tt.setheading(0)
     tt.goto(-300,-200)                                  # Positionnement pour afficher le score doublé
@@ -145,4 +145,4 @@ def historique():
         score,mot = elem.split(';')                 # séparation de la chaine en 2 par ';'
         tt.setheading(270)
         tt.write(f'{mot}, {score}pts', font=('Minecraft', 20, 'italic'))  # affichage du score du mot
-        tt.fd(20)                                   # espace entre deux mots
+        tt.fd((30))                                   # espace entre deux mots

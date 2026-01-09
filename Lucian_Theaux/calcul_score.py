@@ -1,3 +1,5 @@
+# Lucian Théaux
+
 import turtle as tt
 
 def ajout_score(score:int,mot:str):
@@ -40,10 +42,10 @@ def scoreboard(length:int):
                 tt.color("#D1A90F")                                                  # Couleur spéciale pour le meilleur score
                 tt.write(f'{value} ☞ {key}', font=('Minecraft',20, 'italic'))          # Affiche le score et le mot
                 tt.color('black')
-                tt.fd(20)
+                tt.fd(30)
             else:                                                           # Pour les autres scores:
                 tt.write(f'{value} ☞ {key}', font=('Minecraft',20, 'italic'))          # Affiche le score et le mot en noir simple
-                tt.fd(20)
+                tt.fd(30)
             i+= 1
     else:
 
@@ -54,9 +56,9 @@ def scoreboard(length:int):
                 tt.color("#D1A90F")                                         # Couleur spéciale pour le meilleur score   
                 tt.write(f'{value} ☞ {key}', font=('Minecraft',20, 'italic'))        # Affiche le score et le mot
                 tt.color('black')
-                tt.fd(20)   
+                tt.fd(30)   
             else:                                                               # Pour les autres scores:
                 tt.write(f'{value} ☞ {key}', font=('Minecraft',20, 'italic'))      # Affiche le score et le mot en noir simple
-                tt.fd(20)
+                tt.fd(30)
             i+= 1
         

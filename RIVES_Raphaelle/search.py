@@ -1,4 +1,4 @@
-#projet Decembre Raphaëlle Rives 1ere4
+#projet Decembre Raphaëlle Rives et Lucian Théaux 1ere4
 
 import os     # Importation du module os pour la gestion des chemins de fichiers
 

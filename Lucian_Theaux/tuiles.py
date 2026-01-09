@@ -1,4 +1,6 @@
+# Lucian Théaux
 # coding=utf-8
+
 import sys                              # Importation du module sys pour la gestion des chemins de fichiers
 import os                           # Importation du module os pour la gestion des chemins de fichiers
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))                 # Ajout du répertoire parent au chemin de recherche des modules
