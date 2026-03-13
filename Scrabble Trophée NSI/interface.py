@@ -35,41 +35,45 @@ root = tk.Tk()
 # historique()                                     # Afficher l'historique des 10 derniers mots
 
 # ────────────────── Zone d’interaction (faite par le groupe)────────────────────
-right = tk.Frame(root)                            # Créer un frame pour la zone de saisie Tkinter: crée une colonne à droite
-left = tk.Frame(root)                             # Créer un frame pour la zone d'affichage Tkinter: crée une colonne à gauche
-down = tk.Frame(root)
+gauche = tk.Frame(root)                            # Créer un frame pour la zone de saisie Tkinter: crée une colonne à droite
+droite = tk.Frame(root)                             # Créer un frame pour la zone d'affichage Tkinter: crée une colonne à gauche
+coordonnée = tk.Frame(root)
+horizontal_vertical = tk.Frame(root)
 
-input_label = tk.Label(right,text='Entrer un mot (sans accents):')  # Label pour indiquer à l'utilisateur d'entrer un mot
+input_label = tk.Label(gauche,text='Entrer un mot (sans accents):')  # Label pour indiquer à l'utilisateur d'entrer un mot
 input_label.pack()                                # Placer le label dans le frame
-lettre = tk.Entry(right)                          # Champ de saisie pour le mot
+lettre = tk.Entry(gauche)                          # Champ de saisie pour le mot
 lettre.insert(0, 'exemple: tortue')               # Texte d'exemple
 lettre.pack()
-slider_metric = tk.Scale(right, orient='horizontal')  # Curseur pour ajuster la taille
+slider_metric = tk.Scale(gauche, orient='horizontal')  # Curseur pour ajuster la taille
 slider_metric.pack()
 slider_metric.set(10)                               # Valeur initiale du curseur
-send_button = tk.Button(right,text='Envoyer',command=lambda:Score(lettre, points, slider_metric))  # Bouton d'envoi
+send_button = tk.Button(gauche,text='Envoyer',command=lambda:Score(lettre, points, slider_metric))  # Bouton d'envoi
 send_button.pack()
 
-send_button2 = tk.Button(left,text='x2',command=lambda:double(lettre, points, slider_metric))  # Bouton mot compte double
+send_button2 = tk.Button(droite,text='x2',command=lambda:double(lettre, points, slider_metric))  # Bouton mot compte double
 send_button2.pack()
-send_button3 = tk.Button(left,text='x4',command=lambda:quadruple(lettre, points, slider_metric))  # Bouton score du mot x 4
+send_button3 = tk.Button(droite,text='x4',command=lambda:quadruple(lettre, points, slider_metric))  # Bouton score du mot x 4
 send_button3.pack()
-send_button4 = tk.Button(left,text='x9',command=lambda:nonuple(lettre, points, slider_metric))  # Bouton score du mot x 9
+send_button4 = tk.Button(droite,text='x9',command=lambda:nonuple(lettre, points, slider_metric))  # Bouton score du mot x 9
 send_button4.pack()
-send_button5 = tk.Button(left,text='x27',command=lambda:gros_bonus(lettre, points, slider_metric))  # Bouton score du mot x 27
+send_button5 = tk.Button(droite,text='x27',command=lambda:gros_bonus(lettre, points, slider_metric))  # Bouton score du mot x 27
 send_button5.pack()
 
-show_button = tk.Button(right,text='Afficher le barème', command=lambda:bareme_scrabble(slider_metric))  # Bouton du barème
+show_button = tk.Button(gauche,text='Afficher le barème', command=lambda:bareme_scrabble(slider_metric))  # Bouton du barème
 show_button.pack()
 
-horizontal_button = tk.Button(down, text=" → ", anchor="center")
-horizontal_button.pack()
-vertical_button = tk.Button(down, text=" ↓ ", anchor="center")
-vertical_button.pack()
+lettre = tk.Entry(coordonnée)                          # Champ de saisie pour le mot
+lettre.insert(0, 'exemple: tortue')               # Texte d'exemple
+lettre.grid(row=1)
+horizontal_button = tk.Button(horizontal_vertical, text=" → ", anchor="center")
+horizontal_button.grid(row=2,column=2)
+vertical_button = tk.Button(horizontal_vertical, text=" ↓ ", anchor="center")
+vertical_button.grid(row=2,column=1)
 
-right.grid(column=1, row=0)                       # On initialiser "droite" à la colonne 1, ligne 0.  "droite" sera en paramètre pour les widgets
-left.grid(column=2, row=0)                        # Idemme avec "gauche"
-down.grid(column=1, row=1)
+gauche.grid(column=1, row=0)                       # On initialiser "droite" à la colonne 1, ligne 0.  "droite" sera en paramètre pour les widgets
+droite.grid(column=2, row=0)                        # Idemme avec "gauche"
+coordonnée.grid(column=1, row=1)
 
 tt.listen()                                       # Écouter les événements (par exemple les clics de souris ou les frappes clavier)
 tt.mainloop();root.mainloop()  
