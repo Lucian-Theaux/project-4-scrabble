@@ -64,16 +64,17 @@ show_button = tk.Button(gauche,text='Afficher le barème', command=lambda:bareme
 show_button.pack()
 
 lettre = tk.Entry(coordonnée)                          # Champ de saisie pour le mot
-lettre.insert(0, 'exemple: tortue')               # Texte d'exemple
+lettre.insert(0, '"2 3 (min 0 | max 14)"')               # Texte d'exemple
 lettre.grid(row=1)
 horizontal_button = tk.Button(horizontal_vertical, text=" → ", anchor="center")
-horizontal_button.grid(row=2,column=2)
+horizontal_button.grid(column=1,row=2)
 vertical_button = tk.Button(horizontal_vertical, text=" ↓ ", anchor="center")
-vertical_button.grid(row=2,column=1)
+vertical_button.grid(column=2,row=2)
 
 gauche.grid(column=1, row=0)                       # On initialiser "droite" à la colonne 1, ligne 0.  "droite" sera en paramètre pour les widgets
 droite.grid(column=2, row=0)                        # Idemme avec "gauche"
 coordonnée.grid(column=1, row=1)
+horizontal_vertical.grid(column=1,row=2)
 
 tt.listen()                                       # Écouter les événements (par exemple les clics de souris ou les frappes clavier)
 tt.mainloop();root.mainloop()  

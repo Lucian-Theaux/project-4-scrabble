@@ -2,7 +2,7 @@ import turtle
 import os
 
 screen = turtle.Screen()
-screen.setup(900, 900)
+screen.setup(514, 514)
 
 # Récupération du dossier courant
 dossier = os.path.dirname(__file__)
