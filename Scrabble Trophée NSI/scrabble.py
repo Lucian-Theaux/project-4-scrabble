@@ -13,24 +13,3 @@ def ajout_mot_vertical(x:int,y:int,mot:str,plateau:list):  # Ajoute un mot verti
     for lettre in mot:  # Pour chaque lettre du mot
         plateau[y+i][x] = lettre.capitalize()  # Placer la lettre en majuscule verticalement
         i += 1  # Passer à la ligne suivante
-
-# while continuer:
-#     ask = input('Mot [Vide si arrêter] : ')
-
-#     if ask == '':
-#         continuer = False
-#         break
-
-#     orientation = input('Horizontal -> 1 | Vertical -> 2 : ')
-#     coordonnees_x = int(input('x : '))
-#     coordonnees_y = int(input('y : '))
-
-#     print(coordonnees_x)
-
-#     if orientation == 1:
-#         ajout_mot_horizontal(coordonnees_x,coordonnees_y,ask)
-#     else:
-#         ajout_mot_vertical(coordonnees_x,coordonnees_y,ask)
-
-#     for liste in plateau:
-#         print(liste)
