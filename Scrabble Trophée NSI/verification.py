@@ -3,158 +3,170 @@
 # #vérification que deux mots côte à côte forment un mot existant
 import os 
 
-def verification_place(plateau,y,x, direction,mot):
+def verification_place(matrice,y,x, direction,mot):
     if direction == "horizontal" : #horizontal
         for i in range(len(mot)):
-            if plateau[y][x+i] != "" and plateau[y][x+i]!= mot[i] :
+            if matrice[y][x+i] != "" and matrice[y][x+i]!= mot[i] :
                 return f"changez vos coordonnées, la case {y} {x+i} est déjà prise"
     elif direction == "vertical" : #vertical
         for i in range(len(mot)):
-            if plateau[y+i][x] != "" and plateau[y+i][x] != mot[i]:
+            if matrice[y+i][x] != "" and matrice[y+i][x] != mot[i]:
                 return f"changez vos coordonnées, la case {y+i} {x} est déjà prise "
     return True
 
 
-def verification_mot(plateau,y,x, direction,mot):
-    dossier = os.path.dirname(__file__)         # Récupération du dossier courant
-    chemin_fichier = os.path.join(dossier, "mots_autorises.txt")  # Construction du chemin complet vers le fichier
-    with open(chemin_fichier,'r', encoding= 'utf-8') as fichier:
-        if direction == "horizontal":#horizontal
-            if plateau[y][x-1] !="":
-                    nouv_motA=[plateau[y][x-1] + mot]
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y][x-n] !="":
-                            nouv_motA = [plateau[y][x-n]] + nouv_motA
-                        else:
-                            verif = True
-                    nouv_motA="".join(nouv_motA)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_motA:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
-            if plateau[y][x + len(mot)] !="":
-                    nouv_motB=[mot + plateau[y][x + len(mot)]]
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y][x+n] !="":
-                            nouv_motB = nouv_motB + [plateau[y][+-n]]
-                        else:
-                            verif = True
-                    nouv_motB="".join(nouv_motB)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_motB:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
+def verification_mot_horizontal(plateau,y,x,mot):
+    dossier = os.path.dirname(__file__)
+    chemin_fichier = os.path.join(dossier, "mots_autorises.txt")
 
-            for i in range(len(mot)):
-                if plateau[y-1][x+i] != "":
-                    nouv_mot1=[plateau[y-1][x+i],mot[i]]
-                    print(nouv_mot1)
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y-n][x+i] !="":
-                            nouv_mot1 =[plateau[y-n][x+i]] + nouv_mot1 
-                        else:
-                            verif = True
-                    nouv_mot1="".join(nouv_mot1)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_mot1:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
-                    
-                elif plateau[y+1][x+i] != "":
-                    nouv_mot2=[mot[i],plateau[y+1][x+i]]
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y+n][x+i] !="":
-                            nouv_mot2 =  nouv_mot2 +[plateau[y+n][x+i]] 
-                        else:
-                            verif = True
-                    nouv_mot2="".join(nouv_mot2)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_mot2:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
-        elif direction == "vertical" : #vertical
-            if plateau[y-1][x] !="":
-                    nouv_motC= [plateau[y-1][x], mot]
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y-n][x] !="":
-                            nouv_motC = [plateau[y-n][x]] + nouv_motC 
-                        else:
-                            verif = True
-                    nouv_motC="".join(nouv_motC)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_motC:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
+    with open(chemin_fichier,'r', encoding='utf-8') as fichier:
+        mots_valides = set(ligne.strip() for ligne in fichier)
 
-            elif plateau[y + len(mot)][x] !="":
-                    nouv_motD=[mot + plateau[y + len(mot)][x]]
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y+n][x] !="":
-                            nouv_motD =  + nouv_motD + [plateau[y+n][x]]
-                        else:
-                            verif = True
-                    nouv_motD="".join(nouv_motD)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_motD:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
+    # gauche
+    if x > 0 and plateau[y][x-1] != "":
+        nouv_motA=[plateau[y][x-1] + mot]
+        verif_boucle = False
+        n = 1
+        while not verif_boucle:
+            n += 1
+            if x-n >= 0 and plateau[y][x-n] != "":
+                nouv_motA = [plateau[y][x-n]] + nouv_motA
+            else:
+                verif_boucle = True
 
-            for i in range(len(mot)):
-                if plateau[y+i][x-1] != "":
-                    nouv_mot3=[plateau[y+i][x-1],mot[i]]
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y+i][x-n] !="":
-                            nouv_mot3 = [plateau[y+i][x-n]] + nouv_mot3 
-                        else:
-                            verif = True
-                    nouv_mot3= "".join(nouv_mot3)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_mot3:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
+        nouv_motA = "".join(nouv_motA)
 
+        if nouv_motA not in mots_valides:
+            return False
 
-                elif plateau[y+i][x+1] != "":
-                    nouv_mot4=[mot[i],plateau[y+i][x+1]]
-                    verif=False
-                    n=1
-                    while verif == False:
-                        n=n+1
-                        if plateau[y+i][x+n] !="":
-                            nouv_mot4 = nouv_mot4 + [plateau[y+i][x+n]]
-                        else:
-                            verif = True
-                    nouv_mot4="".join(nouv_mot4)
-                    for ligne in fichier:                         # Parcours de chaque ligne du fichier
-                        if ligne[:-1] == nouv_mot4:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
-                            return True               # Si le mot est trouvé, renvoyer True et l'index
-                        n += 1
-                    return False
+    # droite
+    if x + len(mot) < len(plateau) and plateau[y][x + len(mot)] != "":
+        nouv_motB=[mot + plateau[y][x + len(mot)]]
+        verif_boucle = False
+        n = 1
+        while not verif_boucle:
+            n += 1
+            if x+n < len(plateau) and plateau[y][x+n] != "":
+                nouv_motB = nouv_motB + [plateau[y][x+n]]
+            else:
+                verif_boucle = True
+
+        nouv_motB="".join(nouv_motB)
+
+        if nouv_motB not in mots_valides:
+            return False
+
+    # vertical
+    for i in range(len(mot)):
+        col = x+i
+
+        if y > 0 and plateau[y-1][col] != "":
+            nouv_mot1=[plateau[y-1][col],mot[i]]
+            verif_boucle = False
+            n = 1
+            while not verif_boucle:
+                n += 1
+                if y-n >= 0 and plateau[y-n][col] != "":
+                    nouv_mot1 =[plateau[y-n][col]] + nouv_mot1 
+                else:
+                    verif_boucle = True
+
+            nouv_mot1="".join(nouv_mot1)
+
+            if nouv_mot1 not in mots_valides:
+                return False
+
+        elif y+1 < len(plateau) and plateau[y+1][col] != "":
+            nouv_mot2=[mot[i],plateau[y+1][col]]
+            verif_boucle = False
+            n = 1
+            while not verif_boucle:
+                n += 1
+                if y+n < len(plateau) and plateau[y+n][col] != "":
+                    nouv_mot2 = nouv_mot2 + [plateau[y+n][col]] 
+                else:
+                    verif_boucle = True
+
+            nouv_mot2 = "".join(nouv_mot2)
+
+            if nouv_mot2 not in mots_valides:
+                return False
+
+    return True
+                
+
+def verification_mot_vertical(plateau, y, x, mot):
+    import os
+    dossier = os.path.dirname(__file__)
+    chemin_fichier = os.path.join(dossier, "mots_autorises.txt")
+
+    with open(chemin_fichier, 'r', encoding='utf-8') as fichier:
+        mots_valides = set(ligne.strip() for ligne in fichier)
+
+    # haut
+    if y > 0 and plateau[y-1][x] != "":
+        nouv_motC = [plateau[y-1][x]] + list(mot)
+        verif_boucle = False
+        n = 1
+        while not verif_boucle:
+            n += 1
+            if y-n >= 0 and plateau[y-n][x] != "":
+                nouv_motC = [plateau[y-n][x]] + nouv_motC
+            else:
+                verif_boucle = True
+
+        nouv_motC = "".join(nouv_motC)
+        if nouv_motC not in mots_valides:
+            return False
+
+    # bas
+    if y + len(mot) < len(plateau) and plateau[y + len(mot)][x] != "":
+        nouv_motD = list(mot) + [plateau[y + len(mot)][x]]
+        verif_boucle = False
+        n = 1
+        while not verif_boucle:
+            n += 1
+            if y+n < len(plateau) and plateau[y+n][x] != "":
+                nouv_motD = nouv_motD + [plateau[y+n][x]]
+            else:
+                verif_boucle = True
+
+        nouv_motD = "".join(nouv_motD)
+        if nouv_motD not in mots_valides:
+            return False
+
+    # horizontal pour chaque lettre du mot
+    for i in range(len(mot)):
+        row = y + i
+
+        if x > 0 and plateau[row][x-1] != "":
+            nouv_mot3 = [plateau[row][x-1], mot[i]]
+            verif_boucle = False
+            n = 1
+            while not verif_boucle:
+                n += 1
+                if x-n >= 0 and plateau[row][x-n] != "":
+                    nouv_mot3 = [plateau[row][x-n]] + nouv_mot3
+                else:
+                    verif_boucle = True
+
+            nouv_mot3 = "".join(nouv_mot3)
+            if nouv_mot3 not in mots_valides:
+                return False
+
+        elif x + 1 < len(plateau[0]) and plateau[row][x+1] != "":
+            nouv_mot4 = [mot[i], plateau[row][x+1]]
+            verif_boucle = False
+            n = 1
+            while not verif_boucle:
+                n += 1
+                if x+n < len(plateau[0]) and plateau[row][x+n] != "":
+                    nouv_mot4 = nouv_mot4 + [plateau[row][x+n]]
+                else:
+                    verif_boucle = True
+
+            nouv_mot4 = "".join(nouv_mot4)
+            if nouv_mot4 not in mots_valides:
+                return False
+
+    return True
