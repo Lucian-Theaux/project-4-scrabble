@@ -28,7 +28,7 @@ screen.setup(1112, 712)
 
 # --- Ici on initialise quelques paramètres utiles ---
 tt.title("Projet Scrabble")                       # Titre de la fenêtre Turtle
-tt.hideturtle()                                   # Cacher le curseur de la tortue
+# tt.hideturtle()                                   # Cacher le curseur de la tortue
 tt.speed(0)                                       # Régler la vitesse de dessin au maximum
 
 # --- On récupère l'image de fond ---
@@ -41,46 +41,73 @@ root = tk.Tk()
 # -------------------- Zone où se trouve les fonctions qui vont être utilisées par tkinter --------------------
 def application_horizontal():
     mot = ""
-    for letter in lettre.get(): mot+=letter.capitalize
+    for letter in lettre.get(): mot+=letter.capitalize()
     positions = lettre_coo.get().split(' ')
     verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="horizontal",mot=mot)
     if verification == True:
         seconde_verification = verif.verification_mot(plateau,y=int(positions[1]),x=int(positions[0]),direction="horizontal",mot=mot)
-        if True:
+        if seconde_verification == True:
             scrabble.ajout_mot_horizontal(x=int(positions[0]),y=int(positions[1]),mot=mot,plateau=plateau)
             tt.penup()
-            tt.goto((int(positions[0])*47.47)-1112/2,(int(positions[1])*47.47)-47.47)
+            tt.goto((int(positions[0])*47.47)-(1112/2),(712/2)-(47.47*int(positions[1]))-47.47)
             for letter in mot:
-                tuile(letter,slider_metric)
+                tt.setheading(0)
+                tuile(letter)
+                tt.setheading(0)
+                # tt.rt(90)
+                # tt.fd(47.47)
+                # tt.setheading(0)
+                tt.penup()
+            with open('historique.txt', 'a',encoding='utf-8') as fichier:
+                fichier.write(f'{mot}\n')
+            
+            with open('historique.txt', 'r',encoding='utf-8') as fichier:
+                tt.goto(220, 356-(47.47+50))
+                tt.setheading(270)
+                for ligne in fichier:
+                    tt.write(f'{ligne}', font=('Arial',10,'italic'))
+                    tt.fd(15)
+
+
+
 
     else:
         print(verification)
 
 def application_vertical():
     mot = ""
-    for letter in lettre.get(): mot+=letter.capitalize
+    for letter in lettre.get(): mot+=letter.capitalize()
     positions = lettre_coo.get().split(' ')
     verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="vertical",mot=mot)
     if verification == True:
         seconde_verification = verif.verification_mot(plateau,y=int(positions[1]),x=int(positions[0]),direction="vertical",mot=mot)
-        if True:
+        if seconde_verification == True:
             scrabble.ajout_mot_vertical(x=int(positions[0]),y=int(positions[1]),mot=mot,plateau=plateau)
             tt.penup()
             tt.goto((int(positions[0])*47.47)-1112/2,(int(positions[1])*47.47)-47.47)
             for letter in mot:
-                tuile(letter,slider_metric)
+                tt.setheading(0)
+                tuile(letter)
+                tt.setheading(270)
+                tt.fd(47.47)
+                tt.rt(90)
+                tt.fd(47.47)
+                tt.setheading(0)
+        else:
+            print("Votre ne peut pas rentrer sur le plateau, il ne s'aligne pas avec les autres tuiles")
 
     else:
         print(verification)
 
 
-def tuile(ltr, slider_metric):
+def tuile(ltr):
     """
     tuile: crée une tuile affichant la lettre et le score de cette même lettre
     - ltr: Prend en entré une chaine de caractère de une seule lettre
     """
+    tt.pendown()
+    metric = 47.47
     points = {"A":1 ,"E":1 ,"I":1 ,"L":1 ,"N":1 ,"O":1 ,"R":1 ,"S":1 ,"T":1 ,"U":1 ,"D":2 ,"G":2 ,"M":2 ,"B":3 ,"C":3 ,"P":3 ,"F":4 ,"H":4 ,"V":4 ,"J":8 ,"Q":8 ,"K":10 ,"W":10 ,"X":10 ,"Y":10 ,"Z":10}
-    metric = slider_metric.get()                # Récupération de la taille des tuiles à dessiner grâce au slider metric
     tt.pencolor('black')                    # Couleur du contour de la tuile: noir
     tt.fillcolor('#D5B486')                 # Couleur de remplissage de la tuile
     tt.begin_fill()                             # Début du remplissage de la tuile
@@ -89,22 +116,22 @@ def tuile(ltr, slider_metric):
         tt.lt(90)
     tt.end_fill()                           # Fin du remplissage de la tuile
     tt.penup()      
-    tt.fd(1.5*metric)                   # Positionnement pour écrire la lettre
+    tt.fd(metric/7)                   # Positionnement pour écrire la lettre
     tt.lt(90)                              # Tourner à gauche de 90 degrés
-    tt.fd(0.8*metric)
+    tt.fd(metric/7)
     tt.rt(90)
-    tt.write(ltr, font=('Arial', 3*metric))      # Écriture de la lettre avec une taille proportionnelle à la taille de la tuile    
+    tt.write(ltr, font=('Arial', 20))      # Écriture de la lettre avec une taille proportionnelle à la taille de la tuile    
     tt.rt(90)
-    tt.fd(0.8*metric)
+    tt.fd(metric/7)
     tt.lt(90)
     if points[ltr] >= 10:                           # Si le score de la lettre est supérieur ou égal à 10 on se deplace différemment pour centrer le score
-        tt.fd(2.2*metric)                     # Positionnement pour écrire le score
-        tt.write(points[ltr], font=('Arial', metric))   # Écriture du score de la lettre    
-        tt.fd(1.4*metric)                       # Repositionnement après l'écriture du score
+        tt.fd((4*metric)/7)                     # Positionnement pour écrire le score
+        tt.write(points[ltr], font=('Arial', 5))   # Écriture du score de la lettre    
+        tt.fd((2*metric)/7)                       # Repositionnement après l'écriture du score
     else:                       # Si le score de la lettre est inférieur à 10...
-        tt.fd(2.7*metric)
-        tt.write(points[ltr], font=('Arial', metric))
-        tt.fd(0.8*metric)
+        tt.fd((4*metric)/7)
+        tt.write(points[ltr], font=('Arial', 5))
+        tt.fd((2*metric)/7)
     tt.pendown()
 
 # -------------------- Zone d’interaction (faite par le groupe) --------------------
@@ -119,9 +146,6 @@ input_label.pack()                                # Placer le label dans le fram
 lettre = tk.Entry(gauche)                          # Champ de saisie pour le mot
 lettre.insert(0, 'exemple: tortue')               # Texte d'exemple
 lettre.pack()
-slider_metric = tk.Scale(gauche, orient='horizontal')  # Curseur pour ajuster la taille
-slider_metric.pack()
-slider_metric.set(10)                               # Valeur initiale du curseur
 
 send_button2 = tk.Button(droite,text='x2',command=lambda:double(lettre, points, slider_metric))  # Bouton mot compte double
 send_button2.pack()
@@ -162,7 +186,7 @@ for i in range(15):
 
 # --- 2. Titre "Historique"
 tt.penup()
-tt.goto(220, 356-(47.47))
+tt.goto(220, 356-(47.47+30))
 tt.write("Historique", font=('Arial',40))
 
 root.mainloop();tt.mainloop()
