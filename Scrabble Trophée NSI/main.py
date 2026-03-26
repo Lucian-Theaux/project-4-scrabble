@@ -18,8 +18,30 @@ import verification as verif
 import scrabble as scrabble
 
 # -------------------- Initialisation du plateau --------------------
-plateau = scrabble.creation_plateau()          # Création de la variable qui va contenir la "matrice" contenant le plateau
+set_couleur = {
+    '':"#D5B486",
+    'MT':"#c7291d",
+    'LD':"#9daec5",
+    'MD':"#deb364",
+    'E':"#d9a751"
+}
 
+plateau = scrabble.creation_plateau()          # Création de la variable qui va contenir la "matrice" contenant le plateau
+plateau_bonus = [['MT', '', '', 'LD', '', '', '', 'MT', '', '', '', 'LD', '', '', 'MT'], 
+                 ['', 'MD', '', '', '', 'LT', '', '', '', 'LT', '', '', '', 'MD', ''], 
+                 ['', '', 'MD', '', '', '', 'LD', '', 'LD', '', '', '', 'MD', '', ''], 
+                 ['LD', '', '', 'MD', '', '', '', 'LD', '', '', '', 'MD', '', '', 'LD'], 
+                 ['', '', '', '', 'MD', '', '', '', '', '', 'MD', '', '', '', ''], 
+                 ['', 'LT', '', '', '', 'LT', '', '', '', 'LT', '', '', '', 'LT', ''], 
+                 ['', '', 'LD', '', '', '', 'LD', '', 'LD', '', '', '', 'LD', '', ''], 
+                 ['MT', '', '', 'LD', '', '', '', 'E', '', '', '', 'LD', '', '', 'MT'], 
+                 ['', '', 'LD', '', '', '', 'LD', '', 'LD', '', '', '', 'LD', '', ''], 
+                 ['', 'LT', '', '', '', 'LT', '', '', '', 'LT', '', '', '', 'LT', ''], 
+                 ['', '', '', '', 'MD', '', '', '', '', '', 'MD', '', '', '', ''], 
+                 ['LD', '', '', 'MD', '', '', '', '', '', 'MD', '', '', '', '', 'LD'], 
+                 ['', '', 'MD', '', '', '', 'LD', '', 'LD', '', '', '', 'MD', '', ''], 
+                 ['', 'MD', '', '', '', '', '', '', '', '', '', '', '', 'MD', ''], 
+                 ['MT', '', '', 'LD', '', '', '', 'MT', '', '', '', 'LD', '', '', 'MT']]
 
 # -------------------- Initialisation de la fenêtre turtle --------------------
 
@@ -45,27 +67,34 @@ def application_horizontal():
     positions = lettre_coo.get().split(' ')
     verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="horizontal",mot=mot)
     if verification == True:
-        seconde_verification = verif.verification_mot(plateau,y=int(positions[1]),x=int(positions[0]),direction="horizontal",mot=mot)
-        if seconde_verification == True:
+        # seconde_verification = verif.verification_mot(plateau,y=int(positions[1]),x=int(positions[0]),direction="horizontal",mot=mot)
+        if True:
             scrabble.ajout_mot_horizontal(x=int(positions[0]),y=int(positions[1]),mot=mot,plateau=plateau)
             tt.penup()
             tt.goto((int(positions[0])*47.47)-(1112/2),(712/2)-(47.47*int(positions[1]))-47.47)
+            i = 0
             for letter in mot:
+                couleur = set_couleur[plateau_bonus[int(positions[0])+i][int(positions[1])]]
                 tt.setheading(0)
-                tuile(letter)
+                tuile(letter, couleur)
                 tt.setheading(0)
                 # tt.rt(90)
                 # tt.fd(47.47)
                 # tt.setheading(0)
                 tt.penup()
-            with open('historique.txt', 'a',encoding='utf-8') as fichier:
+
+                i += 1
+
+            with open('Scrabble Trophée NSI/historique.txt', 'a',encoding='utf-8') as fichier:
                 fichier.write(f'{mot}\n')
             
-            with open('historique.txt', 'r',encoding='utf-8') as fichier:
-                tt.goto(220, 356-(47.47+50))
+            with open('Scrabble Trophée NSI/historique.txt', 'r',encoding='utf-8') as fichier:
+                tt.goto(220, 356-(47.47+60))
                 tt.setheading(270)
                 for ligne in fichier:
-                    tt.write(f'{ligne}', font=('Arial',10,'italic'))
+                    if ligne == '':
+                        pass
+                    tt.write(f'{ligne}', font=('Arial',15,'italic'))
                     tt.fd(15)
 
 
@@ -80,19 +109,49 @@ def application_vertical():
     positions = lettre_coo.get().split(' ')
     verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="vertical",mot=mot)
     if verification == True:
-        seconde_verification = verif.verification_mot(plateau,y=int(positions[1]),x=int(positions[0]),direction="vertical",mot=mot)
-        if seconde_verification == True:
+        # seconde_verification = verif.verification_mot(plateau,y=int(positions[1]),x=int(positions[0]),direction="vertical",mot=mot)
+        if True:
             scrabble.ajout_mot_vertical(x=int(positions[0]),y=int(positions[1]),mot=mot,plateau=plateau)
             tt.penup()
-            tt.goto((int(positions[0])*47.47)-1112/2,(int(positions[1])*47.47)-47.47)
+            tt.goto((int(positions[0])*47.47)-(1112/2),(712/2)-(47.47*int(positions[1]))-47.47)
+            i = 0
             for letter in mot:
+                couleur = set_couleur[plateau_bonus[int(positions[0])][int(positions[1])+i]]
                 tt.setheading(0)
-                tuile(letter)
+                tuile(letter, couleur)
+                tt.penup()
                 tt.setheading(270)
                 tt.fd(47.47)
                 tt.rt(90)
                 tt.fd(47.47)
                 tt.setheading(0)
+                tt.pendown()
+                i += 1
+
+            with open('Scrabble Trophée NSI/historique.txt', 'a',encoding='utf-8') as fichier:
+                fichier.write(f'{mot}\n')
+            
+            with open('Scrabble Trophée NSI/historique.txt', 'r',encoding='utf-8') as fichier:
+                longueur_mot = []
+                tt.penup()
+                tt.goto(220, 356-(47.47+60))
+                tt.setheading(270)
+                for ligne in fichier:
+                    if ligne == '':
+                        pass
+                    longueur_mot.append(ligne)
+                    tt.write(f'{ligne}', font=('Arial',15,'italic'))
+                    tt.fd(15)
+                
+                longueur_mot_range = sorted(longueur_mot, key=len)
+                longueur_mot_range = longueur_mot_range[::-1]
+                
+                tt.goto(220, -(47.47+60))
+                tt.setheading(270)
+                for elem in longueur_mot_range:
+                    tt.write(f'{elem}', font=('Arial',15,'italic'))
+                    tt.fd(15)
+
         else:
             print("Votre ne peut pas rentrer sur le plateau, il ne s'aligne pas avec les autres tuiles")
 
@@ -100,16 +159,17 @@ def application_vertical():
         print(verification)
 
 
-def tuile(ltr):
+def tuile(ltr:str,couleur:str):
     """
     tuile: crée une tuile affichant la lettre et le score de cette même lettre
     - ltr: Prend en entré une chaine de caractère de une seule lettre
     """
+    global plateau_bonus
     tt.pendown()
     metric = 47.47
     points = {"A":1 ,"E":1 ,"I":1 ,"L":1 ,"N":1 ,"O":1 ,"R":1 ,"S":1 ,"T":1 ,"U":1 ,"D":2 ,"G":2 ,"M":2 ,"B":3 ,"C":3 ,"P":3 ,"F":4 ,"H":4 ,"V":4 ,"J":8 ,"Q":8 ,"K":10 ,"W":10 ,"X":10 ,"Y":10 ,"Z":10}
     tt.pencolor('black')                    # Couleur du contour de la tuile: noir
-    tt.fillcolor('#D5B486')                 # Couleur de remplissage de la tuile
+    tt.fillcolor(couleur)                 # Couleur de remplissage de la tuile
     tt.begin_fill()                             # Début du remplissage de la tuile
     for i in range(4):                          # Boucle pour dessiner un carré
         tt.fd(47.47)
@@ -134,6 +194,12 @@ def tuile(ltr):
         tt.fd((2*metric)/7)
     tt.pendown()
 
+def bareme_scrabble():
+    fen_bareme = tk.Toplevel()
+    fen_bareme.geometry('300x100')
+
+    fen_bareme.mainloop()
+
 # -------------------- Zone d’interaction (faite par le groupe) --------------------
 
 gauche = tk.Frame(root)                            # Créer un frame pour la zone de saisie Tkinter: crée une colonne à droite
@@ -147,16 +213,7 @@ lettre = tk.Entry(gauche)                          # Champ de saisie pour le mot
 lettre.insert(0, 'exemple: tortue')               # Texte d'exemple
 lettre.pack()
 
-send_button2 = tk.Button(droite,text='x2',command=lambda:double(lettre, points, slider_metric))  # Bouton mot compte double
-send_button2.pack()
-send_button3 = tk.Button(droite,text='x4',command=lambda:quadruple(lettre, points, slider_metric))  # Bouton score du mot x 4
-send_button3.pack()
-send_button4 = tk.Button(droite,text='x9',command=lambda:nonuple(lettre, points, slider_metric))  # Bouton score du mot x 9
-send_button4.pack()
-send_button5 = tk.Button(droite,text='x27',command=lambda:gros_bonus(lettre, points, slider_metric))  # Bouton score du mot x 27
-send_button5.pack()
-
-show_button = tk.Button(gauche,text='Afficher le barème', command=lambda:bareme_scrabble(slider_metric))  # Bouton du barème
+show_button = tk.Button(gauche,text='Afficher le barème', command=lambda:bareme_scrabble())  # Bouton du barème
 show_button.pack()
 
 lettre_coo = tk.Entry(coordonnée)                          # Champ de saisie pour le mot
@@ -184,9 +241,14 @@ for i in range(15):
     tt.write(i, font=('Arial',20))
     tt.fd(47.47)
 
-# --- 2. Titre "Historique"
+# --- 2. Titre "Historique" ---
 tt.penup()
 tt.goto(220, 356-(47.47+30))
-tt.write("Historique", font=('Arial',40))
+tt.write("Historique", font=('Arial',40,"bold"))
+
+# --- 2. Titre "Scoreboard" ---
+tt.penup()
+tt.goto(220, -(47.47+30))
+tt.write("Scoreboard", font=('Arial',40,"bold"))
 
 root.mainloop();tt.mainloop()
