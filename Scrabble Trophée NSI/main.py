@@ -5,11 +5,6 @@
 #* Raphaëlle RIVES
 #* Roméo HUYNH
 
-#! A faire !!!!!
-#* Trouver le problème de l'affichage des tuiles
-#* Afficher l'historiquer
-#* Afficher le scoreboard
-
 # -------------------- Ici on importe les fichiers nécéssaires pour le projet --------------------
 import tkinter as tk
 import turtle as tt
