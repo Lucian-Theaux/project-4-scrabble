@@ -7,6 +7,7 @@
 
 # -------------------- Ici on importe les fichiers nécéssaires pour le projet --------------------
 import tkinter as tk
+from tkinter import PhotoImage
 import turtle as tt
 import os
 import verification as verif
@@ -14,29 +15,30 @@ import scrabble as scrabble
 
 # -------------------- Initialisation du plateau --------------------
 set_couleur = {                 # Dictionnaire qui associe à chaque type de case une couleur
-    '':"#D5B486",
+    '  ':"#D5B486",
     'MT':"#c7291d",
     'LD':"#9daec5",
     'MD':"#deb364",
-    'E':"#d9a751"
+    'E':"#d9a751",
+    'LT':"#348dbc"
 }
 
 plateau = scrabble.creation_plateau()          # Création de la variable qui va contenir la "matrice" contenant le plateau
-plateau_bonus = [['MT', '', '', 'LD', '', '', '', 'MT', '', '', '', 'LD', '', '', 'MT'],  # Matrice 15x15 contenant les bonus de chaque case
-                 ['', 'MD', '', '', '', 'LT', '', '', '', 'LT', '', '', '', 'MD', ''], 
-                 ['', '', 'MD', '', '', '', 'LD', '', 'LD', '', '', '', 'MD', '', ''], 
-                 ['LD', '', '', 'MD', '', '', '', 'LD', '', '', '', 'MD', '', '', 'LD'], 
-                 ['', '', '', '', 'MD', '', '', '', '', '', 'MD', '', '', '', ''], 
-                 ['', 'LT', '', '', '', 'LT', '', '', '', 'LT', '', '', '', 'LT', ''], 
-                 ['', '', 'LD', '', '', '', 'LD', '', 'LD', '', '', '', 'LD', '', ''], 
-                 ['MT', '', '', 'LD', '', '', '', 'E', '', '', '', 'LD', '', '', 'MT'],  # E = case départ (étoile)
-                 ['', '', 'LD', '', '', '', 'LD', '', 'LD', '', '', '', 'LD', '', ''], 
-                 ['', 'LT', '', '', '', 'LT', '', '', '', 'LT', '', '', '', 'LT', ''], 
-                 ['', '', '', '', 'MD', '', '', '', '', '', 'MD', '', '', '', ''], 
-                 ['LD', '', '', 'MD', '', '', '', '', '', 'MD', '', '', '', '', 'LD'], 
-                 ['', '', 'MD', '', '', '', 'LD', '', 'LD', '', '', '', 'MD', '', ''], 
-                 ['', 'MD', '', '', '', '', '', '', '', '', '', '', '', 'MD', ''], 
-                 ['MT', '', '', 'LD', '', '', '', 'MT', '', '', '', 'LD', '', '', 'MT']]
+plateau_bonus = [['MT', '  ', '  ', 'LD', '  ', '  ', '  ', 'MT', '  ', '  ', '  ', 'LD', '  ', '  ', 'MT'],  # Matrice 15x15 contenant les bonus de chaque case
+                 ['  ', 'MD', '  ', '  ', '  ', 'LT', '  ', '  ', '  ', 'LT', '  ', '  ', '  ', 'MD', '  '], 
+                 ['  ', '  ', 'MD', '  ', '  ', '  ', 'LD', '  ', 'LD', '  ', '  ', '  ', 'MD', '  ', '  '], 
+                 ['LD', '  ', '  ', 'MD', '  ', '  ', '  ', 'LD', '  ', '  ', '  ', 'MD', '  ', '  ', 'LD'], 
+                 ['  ', '  ', '  ', '  ', 'MD', '  ', '  ', '  ', '  ', '  ', 'MD', '  ', '  ', '  ', '  '], 
+                 ['  ', 'LT', '  ', '  ', '  ', 'LT', '  ', '  ', '  ', 'LT', '  ', '  ', '  ', 'LT', '  '], 
+                 ['  ', '  ', 'LD', '  ', '  ', '  ', 'LD', '  ', 'LD', '  ', '  ', '  ', 'LD', '  ', '  '], 
+                 ['MT', '  ', '  ', 'LD', '  ', '  ', '  ', 'E' , '  ', '  ', '  ', 'LD', '  ', '  ', 'MT'],  # E = case départ (étoile)
+                 ['  ', '  ', 'LD', '  ', '  ', '  ', 'LD', '  ', 'LD', '  ', '  ', '  ', 'LD', '  ', '  '], 
+                 ['  ', 'LT', '  ', '  ', '  ', 'LT', '  ', '  ', '  ', 'LT', '  ', '  ', '  ', 'LT', '  '], 
+                 ['  ', '  ', '  ', '  ', 'MD', '  ', '  ', '  ', '  ', '  ', 'MD', '  ', '  ', '  ', '  '], 
+                 ['LD', '  ', '  ', 'MD', '  ', '  ', '  ', '  ', '  ', '  ', '  ', 'MD', '  ', '  ', 'LD'], 
+                 ['  ', '  ', 'MD', '  ', '  ', '  ', 'LD', '  ', 'LD', '  ', '  ', '  ', 'MD', '  ', '  '], 
+                 ['  ', 'MD', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ', 'MD', '  '], 
+                 ['MT', '  ', '  ', 'LD', '  ', '  ', '  ', 'MT', '  ', '  ', '  ', 'LD', '  ', '  ', 'MT']]
 
 # -------------------- Initialisation de la fenêtre turtle --------------------
 
@@ -61,7 +63,7 @@ def application_horizontal():
     mot = ""
     for letter in lettre.get(): mot+=letter.capitalize()  # Convertir chaque lettre en majuscule
     positions = lettre_coo.get().split(' ')  # Récupérer les coordonnées saisies (x et y)
-    verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),mot=mot)             # On vérifie que le mot peut être placé à l'endroit voulu et dans la direction voulue   
+    verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="horizontal",mot=mot)             # On vérifie que le mot peut être placé à l'endroit voulu et dans la direction voulue   
     if verification == True:
         seconde_verification = verif.verification_mot_horizontal(plateau,y=int(positions[1]),x=int(positions[0]),mot=mot)      # On vérifie que le mot s'aligne correctement avec les autres mots déjà présents sur le plateau
         if seconde_verification==True:
@@ -100,7 +102,7 @@ def application_vertical():
     mot = ""  # Initialisation du mot en majuscules
     for letter in lettre.get(): mot+=letter.capitalize()  # Construire le mot
     positions = lettre_coo.get().split(' ')  # Extraire x et y
-    verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),mot=mot)            # Vérifier que le mot peut être placé à cet endroit et dans cette direction
+    verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="vertical",mot=mot)            # Vérifier que le mot peut être placé à cet endroit et dans cette direction
     if verification == True:
         seconde_verification = verif.verification_mot_vertical(plateau,y=int(positions[1]),x=int(positions[0]),mot=mot)             # Vérifier que le mot s'aligne correctement avec les autres mots déjà présents sur le plateau
         if seconde_verification == True:
@@ -189,8 +191,13 @@ def tuile(ltr:str,couleur:str):
     tt.pendown()
 
 def bareme_scrabble():
-    fen_bareme = tk.Toplevel()  # Créer fenêtre barème
-    fen_bareme.geometry('300x100')  # Définir taille
+    fen_bareme = tk.Toplevel()  # Créer fenêtre barème secondaire
+    fen_bareme.geometry('700x445')  # Définir taille
+    image_bareme = PhotoImage(file='Scrabble Trophée NSI/bareme.png') #Definir une image à associer
+    image_label = tk.Label(fen_bareme, image=image_bareme) # Associer cette image à un Label
+    image_label.pack() # On transforme en paquet le label pour pouvoir afficher l'image sur la fenêtre
+    description = tk.Label(fen_bareme,text="Beige → 1pt | Orange → 2 pts | Orange-rouge → 3pts | \nRouge-clair → 4pts | Rouge → 8pts | Rouge-foncé → 10pts", font=('Arial',13,'italic')) # Description associée à l'image du dessus
+    description.pack()
     fen_bareme.mainloop()  # Lancer la fenêtre
 
 # -------------------- Zone d’interaction (faite par le groupe) --------------------
