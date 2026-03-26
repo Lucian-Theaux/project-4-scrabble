@@ -62,6 +62,22 @@ def application_horizontal():
     """application_horizontal: fonction qui va être appelée lorsque l'utilisateur clique sur le bouton de placement horizontal. Elle vérifie que le mot peut être placé à l'endroit voulu et dans la direction voulue, puis elle ajoute le mot au plateau et affiche les tuiles correspondantes."""
     mot = ""
     for letter in lettre.get(): mot+=letter.capitalize()  # Convertir chaque lettre en majuscule
+
+    mot = mot.upper()                           # Mettre le mot en majuscule pour la comparaison
+    i = 1                                       # Initialisation de l'index   
+    dossier = os.path.dirname(__file__)         # Récupération du dossier courant
+    chemin_fichier = os.path.join(dossier, "mots_autorises.txt")  # Construction du chemin complet vers le fichier
+    with open(chemin_fichier, "r", encoding="utf-8") as F:        # Ouverture du fichier en mode lecture avec encodage utf-8
+        for ligne in F:                         # Parcours de chaque ligne du fichier
+            if ligne[:-1] == mot:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
+                autorise = True              # Si le mot est trouvé, renvoyer True 
+            i += 1
+        autorise == False                   # Si le mot n'est pas trouvé, renvoyer False 
+
+    if autorise == False: # Si il y a refus on envoie un message d'alerte que le mot n'existe pas et on casse la fonction
+        print("Votre mot n'est pas présent dans la liste des mots autorisés.")
+        return None
+
     positions = lettre_coo.get().split(' ')  # Récupérer les coordonnées saisies (x et y)
     verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="horizontal",mot=mot)             # On vérifie que le mot peut être placé à l'endroit voulu et dans la direction voulue   
     if verification == True:
@@ -82,17 +98,56 @@ def application_horizontal():
             with open('Scrabble Trophée NSI/historique.txt', 'a',encoding='utf-8') as fichier:  # Ouvrir l'historique en mode ajout
                 fichier.write(f'{mot}\n')  # Ajouter le mot joué
             
-            with open('Scrabble Trophée NSI/historique.txt', 'r',encoding='utf-8') as fichier:  # Ouvrir en lecture
-                tt.goto(220, 356-(47.47+60))  # Positionner pour l'historique
-                tt.setheading(270)  # Orientation vers le bas
-                for ligne in fichier:  # Afficher chaque mot de l'historique
-                    if ligne == '':  # Ignorer les lignes vides
-                        pass
-                    tt.write(f'{ligne}', font=('Arial',15,'italic'))  # Écrire le mot
-                    tt.fd(15)  # Descendre à la ligne suivante
-
-
-
+            historique_list=[]                              # liste vide pour stocker les scores
+            F = open('Scrabble Trophée NSI/historique.txt','r', encoding='utf-8')    # ouverture du fichier en mode lecture
+            historique_list = F.read().split('\n')          # lecture du fichier et séparation des lignes
+            F.close()                                       # fermeture du fichier
+            while len(historique_list) > 20:                 # tant que la liste contient plus de 10 éléments on affiche les 10 derniers mots et scores
+                historique_list.remove(historique_list[0])    # on supprimee mot le plus ancien (1er de la liste) quand un nouveau est ajouté
+            
+            tt.goto(220, 356-(47.47+40))  # Positionner pour l'historique
+            tt.setheading(0)
+            tt.fillcolor('white')
+            tt.begin_fill()
+            tt.fd(400)
+            tt.rt(90)
+            tt.fd(200)
+            tt.rt(90)
+            tt.fd(400)
+            tt.rt(90)
+            tt.fd(200)
+            tt.rt(90)
+            tt.end_fill()
+            tt.goto(220, 356-(47.47+60))  # Positionner pour l'historique
+            tt.setheading(270)  # Orientation vers le bas
+            for ligne in historique_list:  # Afficher chaque mot de l'historique
+                if ligne == '':  # Ignorer les lignes vides
+                    pass
+                tt.write(f'{ligne}', font=('Arial',15,'italic'))  # Écrire le mot
+                tt.fd(15)  # Descendre à la ligne suivante
+            
+            longueur_mot_range = sorted(historique_list, key=len)  # Trier par longueur
+            longueur_mot_range = longueur_mot_range[::-1]  # Inverser pour mettre le plus long d'abord
+                
+            tt.goto(220, -(47.47+40))  # Position scoreboard
+            tt.setheading(0)
+            tt.fillcolor('white')
+            tt.begin_fill()
+            for i in range(4):
+                tt.fd(500)
+                tt.rt(90)
+            tt.end_fill()
+            tt.goto(220, -(47.47+60))  # Position scoreboard
+            tt.setheading(270)  # Bas
+            tt.fillcolor('black')
+            print(longueur_mot_range)
+            i = 0
+            for elem in longueur_mot_range:  #parcourir les mots
+                if i > 20:
+                    break
+                tt.write(f'{elem}', font=('Arial',15,'italic'))  # Écrire le mot trié
+                tt.fd(15)  # Descendre
+                i += 1
 
     else:
         print(verification)
@@ -101,6 +156,22 @@ def application_vertical():
     """application_vertical: fonction qui va être appelée lorsque l'utilisateur clique sur le bouton de placement vertical. Elle vérifie que le mot peut être placé à l'endroit voulu et dans la direction voulue, puis elle ajoute le mot au plateau et affiche les tuiles correspondantes."""
     mot = ""  # Initialisation du mot en majuscules
     for letter in lettre.get(): mot+=letter.capitalize()  # Construire le mot
+
+    mot = mot.upper()                           # Mettre le mot en majuscule pour la comparaison
+    i = 1                                       # Initialisation de l'index   
+    dossier = os.path.dirname(__file__)         # Récupération du dossier courant
+    chemin_fichier = os.path.join(dossier, "mots_autorises.txt")  # Construction du chemin complet vers le fichier
+    with open(chemin_fichier, "r", encoding="utf-8") as F:        # Ouverture du fichier en mode lecture avec encodage utf-8
+        for ligne in F:                         # Parcours de chaque ligne du fichier
+            if ligne[:-1] == mot:               # Comparaison du mot (enlevant le caractère de nouvelle ligne)
+                autorise = True              # Si le mot est trouvé, renvoyer True 
+            i += 1
+        autorise == False                   # Si le mot n'est pas trouvé, renvoyer False 
+
+    if autorise == False: # Si il y a refus on envoie un message d'alerte que le mot n'existe pas et on casse la fonction
+        print("Votre mot n'est pas présent dans la liste des mots autorisés.")
+        return None
+    
     positions = lettre_coo.get().split(' ')  # Extraire x et y
     verification = verif.verification_place(plateau,y=int(positions[1]),x=int(positions[0]),direction="vertical",mot=mot)            # Vérifier que le mot peut être placé à cet endroit et dans cette direction
     if verification == True:
@@ -120,32 +191,62 @@ def application_vertical():
                 tt.rt(90)
                 tt.fd(47.47)
                 tt.setheading(0)
-                tt.pendown()
+                tt.penup()
                 i += 1                  # Passer à la lettre suivante
 
-            with open('Scrabble Trophée NSI/historique.txt', 'a',encoding='utf-8') as fichier:  # Ajouter à l'historique
-                fichier.write(f'{mot}\n')  # Écrire le mot
+            with open('Scrabble Trophée NSI/historique.txt', 'a',encoding='utf-8') as fichier:  # Ouvrir l'historique en mode ajout
+                fichier.write(f'{mot}\n')  # Ajouter le mot joué
             
-            with open('Scrabble Trophée NSI/historique.txt', 'r',encoding='utf-8') as fichier:  # Lire l'historique
-                longueur_mot = []  # Liste des mots pour tri
-                tt.penup()  # Lever stylo
-                tt.goto(220, 356-(47.47+60))  # Position historique
-                tt.setheading(270)  # Bas
-                for ligne in fichier:  # Lire et afficher
-                    if ligne == '':  # Sauter vides
-                        pass
-                    longueur_mot.append(ligne)  # Ajouter à la liste
-                    tt.write(f'{ligne}', font=('Arial',15,'italic'))  # Afficher
-                    tt.fd(15)  # Descendre
+            historique_list=[]                              # liste vide pour stocker les scores
+            F = open('Scrabble Trophée NSI/historique.txt','r', encoding='utf-8')    # ouverture du fichier en mode lecture
+            historique_list = F.read().split('\n')          # lecture du fichier et séparation des lignes
+            F.close()                                       # fermeture du fichier
+            while len(historique_list) > 20:                 # tant que la liste contient plus de 10 éléments on affiche les 10 derniers mots et scores
+                historique_list.remove(historique_list[0])    # on supprimee mot le plus ancien (1er de la liste) quand un nouveau est ajouté
+            
+            tt.goto(220, 356-(47.47+40))  # Positionner pour l'historique
+            tt.setheading(0)
+            tt.fillcolor('white')
+            tt.begin_fill()
+            tt.fd(400)
+            tt.rt(90)
+            tt.fd(200)
+            tt.rt(90)
+            tt.fd(400)
+            tt.rt(90)
+            tt.fd(200)
+            tt.rt(90)
+            tt.end_fill()
+            tt.goto(220, 356-(47.47+60))  # Positionner pour l'historique
+            tt.setheading(270)  # Orientation vers le bas
+            for ligne in historique_list:  # Afficher chaque mot de l'historique
+                if ligne == '':  # Ignorer les lignes vides
+                    pass
+                tt.write(f'{ligne}', font=('Arial',15,'italic'))  # Écrire le mot
+                tt.fd(15)  # Descendre à la ligne suivante
+            
+            longueur_mot_range = sorted(historique_list, key=len)  # Trier par longueur
+            longueur_mot_range = longueur_mot_range[::-1]  # Inverser pour mettre le plus long d'abord
                 
-                longueur_mot_range = sorted(longueur_mot, key=len)  # Trier par longueur
-                longueur_mot_range = longueur_mot_range[::-1]  # Inverser pour mettre le plus long d'abord
-                
-                tt.goto(220, -(47.47+60))  # Position scoreboard
-                tt.setheading(270)  # Bas
-                for elem in longueur_mot_range:  #parcourir les mots
-                    tt.write(f'{elem}', font=('Arial',15,'italic'))  # Écrire le mot trié
-                    tt.fd(15)  # Descendre
+            tt.goto(220, -(47.47+40))  # Position scoreboard
+            tt.setheading(0)
+            tt.fillcolor('white')
+            tt.begin_fill()
+            for i in range(4):
+                tt.fd(500)
+                tt.rt(90)
+            tt.end_fill()
+            tt.goto(220, -(47.47+60))  # Position scoreboard
+            tt.setheading(270)  # Bas
+            tt.fillcolor('black')
+            print(longueur_mot_range)
+            i = 0
+            for elem in longueur_mot_range:  #parcourir les mots
+                if i > 20:
+                    break
+                tt.write(f'{elem}', font=('Arial',15,'italic'))  # Écrire le mot trié
+                tt.fd(15)  # Descendre
+                i += 1
 
         else:
             print("Votre ne peut pas rentrer sur le plateau, il ne s'aligne pas avec les autres tuiles")
@@ -181,11 +282,11 @@ def tuile(ltr:str,couleur:str):
     tt.lt(90)
     if points[ltr] >= 10:                           # Si le score de la lettre est supérieur ou égal à 10 on se deplace différemment pour centrer le score
         tt.fd((4*metric)/7)                     # Positionnement pour écrire le score
-        tt.write(points[ltr], font=('Arial', 5))   # Écriture du score de la lettre    
+        tt.write(points[ltr], font=('Arial', 10))   # Écriture du score de la lettre    
         tt.fd((2*metric)/7)                       # Repositionnement après l'écriture du score
     else:                       # Si le score de la lettre est inférieur à 10...
         tt.fd((4*metric)/7)
-        tt.write(points[ltr], font=('Arial', 5))        # Écriture du score avec petite police
+        tt.write(points[ltr], font=('Arial', 10))        # Écriture du score avec petite police
         # Repositionnement après l'écriture
         tt.fd((2*metric)/7)
     tt.pendown()
